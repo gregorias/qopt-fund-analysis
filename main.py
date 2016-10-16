@@ -365,6 +365,8 @@ def plot_stackplot(portfolios, index, title_aux='', x_label='Index'):
     polys = ax.stackplot(index, np.row_stack(per_security_share))
     ax.set_xlabel(x_label)
     ax.set_ylabel('Share')
+    ax.set_xlim((min(index), max(index)))
+    ax.set_ylim((0.0, 1.0))
     plt.title('Sample of portfolios{0}'.format("(" + title_aux + ")" if
                                                title_aux else ""))
 
@@ -375,7 +377,7 @@ def plot_stackplot(portfolios, index, title_aux='', x_label='Index'):
 
     legendProxies.reverse()
     securities = list(reversed(list(securities)))
-    plt.legend(legendProxies, securities)
+    plt.legend(legendProxies, securities, loc='upper left')
 
 
 # Helper functions that wrap it all up
@@ -454,10 +456,10 @@ def main_processing(all_monthly_returns, plot=True):
     # only_ing = all_monthly_returns.index.str.startswith('ING')
     # all_monthly_returns = all_monthly_returns[only_ing]
 
-    month_ranges = [72, 60, 36]
+    month_ranges = [36]
     return_data = {}
     for m in month_ranges:
-        print("Analysing data from last {0} months.".format(m))
+        print("Analysing data from the last {0} months.".format(m))
         trimmed_returns = filter_to_time_range(all_monthly_returns,
                                                month_count=m)
         constraints = generate_constraints(trimmed_returns.index)
